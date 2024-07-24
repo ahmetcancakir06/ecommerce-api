@@ -17,8 +17,18 @@ const swaggerOptions = {
         tags: [{
             name: 'Products',
             description: 'API for products in the system'
+        }, {
+            name: 'Authentication',
+            description: 'API for user authentication'
         }],
         components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                }
+            },
             schemas: {
                 Product: {
                     type: 'object',
@@ -43,9 +53,48 @@ const swaggerOptions = {
                         createdAt: '2024-07-20T17:32:28.214Z',
                         updatedAt: '2024-07-20T17:32:28.214Z'
                     }
+                },
+                LoginRequest: {
+                    type: 'object',
+                    properties: {
+                        email: { type: 'string', format: 'email' },
+                        password: { type: 'string' }
+                    },
+                    required: ['email', 'password'],
+                    example: {
+                        email: 'user@example.com',
+                        password: 'yourpassword'
+                    }
+                },
+                RegisterRequest: {
+                    type: 'object',
+                    properties: {
+                        name: { type: 'string' },
+                        email: { type: 'string', format: 'email' },
+                        password: { type: 'string' },
+                        isAdmin: { type: 'boolean' }
+                    },
+                    required: ['name', 'email', 'password'],
+                    example: {
+                        name: 'name',
+                        email: 'user@example.com',
+                        password: 'yourpassword',
+                        isAdmin: false
+                    }
+                },
+                AuthResponse: {
+                    type: 'object',
+                    properties: {
+                        token: { type: 'string' }
+                    },
+                    example: {
+                        token: 'tokenstring'
+                    }
                 }
-            }
-        }
+            },
+
+        },
+
     },
     apis: ['src/routes/*.js']
 };

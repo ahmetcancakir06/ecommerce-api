@@ -6,6 +6,7 @@ const {
     updateProduct,
     deleteProduct
 } = require('../controllers/productController');
+const { verifyToken, checkAdminRole } = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 /**
@@ -21,6 +22,8 @@ const router = express.Router();
  *   post:
  *     summary: Create a new product
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -57,7 +60,7 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post('/', createProduct);
+router.post('/', verifyToken, checkAdminRole, createProduct);
 
 /**
  * @swagger
