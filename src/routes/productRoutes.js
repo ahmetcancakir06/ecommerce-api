@@ -113,6 +113,8 @@ router.get('/', getAllProducts);
  *   put:
  *     summary: Update a product
  *     tags: [Products]
+ *     security:
+ *     - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -158,7 +160,7 @@ router.get('/', getAllProducts);
  *       500:
  *         description: Server error
  */
-router.put('/:id', updateProduct);
+router.put('/:id',verifyToken,checkAdminRole, updateProduct);
 
 /**
  * @swagger
@@ -166,6 +168,8 @@ router.put('/:id', updateProduct);
  *   delete:
  *     summary: Delete a product
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -175,12 +179,12 @@ router.put('/:id', updateProduct);
  *         description: Product ID
  *     responses:
  *       200:
- *         description: Deleted product
+ *         description: Product removed
  *       404:
  *         description: Product not found
  *       500:
  *         description: Server error
  */
-router.delete('/:id', deleteProduct);
+router.delete('/:id',verifyToken,checkAdminRole, deleteProduct);
 
 module.exports = router;

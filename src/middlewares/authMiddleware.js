@@ -20,7 +20,8 @@ const verifyToken = (req, res, next) => {
 const checkAdminRole = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id);
-        if (user.isAdmin !== false && user.isAdmin !== 'false') {
+        console.log(user);
+        if (user.isAdmin === false || user.isAdmin === 'false') {
             return res.status(403).json({ message: 'Access denied, admin only' });
         }
         next();
